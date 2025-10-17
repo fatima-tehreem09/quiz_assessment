@@ -191,14 +191,14 @@ class QuizScreen extends StatelessWidget {
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(6),
                       child: LinearProgressIndicator(
                         value: state.progress,
                         backgroundColor:
-                            AppColors.lightOnPrimary.withValues(alpha: 0.3),
+                            AppColors.secondaryLightPurple.withValues(alpha: 0.35),
                         valueColor: const AlwaysStoppedAnimation<Color>(
-                            AppColors.lightOnPrimary),
-                        minHeight: 8,
+                            AppColors.primaryBlueViolet),
+                        minHeight: 10,
                       ),
                     ),
                   ),
@@ -224,10 +224,12 @@ class QuizScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Expanded(
-                        child: SingleChildScrollView(
-                          child: FadeInUp(
-                            duration: const Duration(milliseconds: 800),
-                            child: QuestionText(text: state.currentQuestion.question),
+                        child: Center(
+                          child: SingleChildScrollView(
+                            child: FadeInUp(
+                              duration: const Duration(milliseconds: 800),
+                              child: QuestionText(text: state.currentQuestion.question),
+                            ),
                           ),
                         ),
                       ),
@@ -236,7 +238,7 @@ class QuizScreen extends StatelessWidget {
                         final int index = entry.key;
                         final String opt = entry.value;
                         final bool isSelected = state.selected == opt;
-                        final bool showFeedback = state.feedback != null;
+                        final bool showFeedback = state.isFeedbackVisible;
                         final bool isCorrect =
                             opt == state.currentQuestion.correctAnswer;
 
@@ -266,7 +268,9 @@ class QuizScreen extends StatelessWidget {
                           isSelected: isSelected,
                           showFeedback: showFeedback,
                           isCorrect: isCorrect,
-                          onTap: showFeedback ? null : () => context.read<QuizCubit>().select(opt),
+                          onTap: showFeedback
+                              ? null
+                              : () => context.read<QuizCubit>().select(opt),
                         );
                       }),
                       const SizedBox(height: 20),
@@ -275,8 +279,8 @@ class QuizScreen extends StatelessWidget {
                           Expanded(child: TimerBar(secondsLeft: state.secondsLeft)),
                           const SizedBox(width: 12),
                             ElevatedButton(
-                              onPressed: state.feedback != null ||
-                                      state.selected == null
+                            onPressed: state.isFeedbackVisible ||
+                                    state.selected == null
                                   ? null
                                   : () => context.read<QuizCubit>().submit(),
                               style: ElevatedButton.styleFrom(
@@ -287,7 +291,7 @@ class QuizScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      if (state.feedback != null) ...[
+                      if (state.isFeedbackVisible && state.feedback != null) ...[
                         const SizedBox(height: 16),
                         FadeInUp(
                           duration: const Duration(milliseconds: 600),

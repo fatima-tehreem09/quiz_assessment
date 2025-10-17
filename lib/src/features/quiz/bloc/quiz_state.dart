@@ -13,6 +13,7 @@ abstract class QuizState extends Equatable {
     required String? selected,
     required String? feedback,
     required List<List<String>> optionsPerQuestion,
+    required bool isFeedbackVisible,
   }) = QuizPlaying;
   const factory QuizState.finished({required int correctCount, required int total}) = QuizFinished;
 
@@ -40,6 +41,7 @@ class QuizPlaying extends QuizState {
     required this.selected,
     required this.feedback,
     required this.optionsPerQuestion,
+    required this.isFeedbackVisible,
   });
 
   final List<QuestionModel> questions;
@@ -49,6 +51,7 @@ class QuizPlaying extends QuizState {
   final String? selected;
   final String? feedback;
   final List<List<String>> optionsPerQuestion;
+  final bool isFeedbackVisible;
 
   QuestionModel get currentQuestion => questions[currentIndex];
   List<String> get currentOptions => optionsPerQuestion[currentIndex];
@@ -62,6 +65,7 @@ class QuizPlaying extends QuizState {
     String? selected,
     String? feedback,
     List<List<String>>? optionsPerQuestion,
+    bool? isFeedbackVisible,
   }) {
     return QuizPlaying(
       questions: questions ?? this.questions,
@@ -71,11 +75,12 @@ class QuizPlaying extends QuizState {
       selected: selected ?? this.selected,
       feedback: feedback ?? this.feedback,
       optionsPerQuestion: optionsPerQuestion ?? this.optionsPerQuestion,
+      isFeedbackVisible: isFeedbackVisible ?? this.isFeedbackVisible,
     );
   }
 
   @override
-  List<Object?> get props => <Object?>[questions, currentIndex, secondsLeft, correctCount, selected, feedback, optionsPerQuestion];
+  List<Object?> get props => <Object?>[questions, currentIndex, secondsLeft, correctCount, selected, feedback, optionsPerQuestion, isFeedbackVisible];
 }
 
 class QuizFinished extends QuizState {

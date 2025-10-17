@@ -54,6 +54,7 @@ class QuizCubit extends Cubit<QuizState> {
         selected: null,
         feedback: null,
         optionsPerQuestion: optionsPerQuestion,
+        isFeedbackVisible: false,
       ));
       _startTimer();
     } catch (e) {
@@ -77,7 +78,7 @@ class QuizCubit extends Cubit<QuizState> {
 
   void select(String option) {
     final QuizState s = state;
-    if (s is QuizPlaying && s.feedback == null) {
+    if (s is QuizPlaying && !s.isFeedbackVisible) {
       emit(s.copyWith(selected: option));
     }
   }
@@ -96,6 +97,7 @@ class QuizCubit extends Cubit<QuizState> {
       feedback: isCorrect ? 'Correct' : 'Incorrect',
       correctCount: s.correctCount + (isCorrect ? 1 : 0),
       selected: selected,
+      isFeedbackVisible: true,
     ));
 
     Future<void>.delayed(const Duration(seconds: 1), () {
@@ -106,7 +108,7 @@ class QuizCubit extends Cubit<QuizState> {
         emit(QuizState.finished(
             correctCount: s2.correctCount, total: s2.questions.length));
       } else {
-        final QuizPlaying cleared = s2.copyWith(feedback: null);
+        final QuizPlaying cleared = s2.copyWith(feedback: null, isFeedbackVisible: false);
         emit(cleared);
         Future<void>.delayed(const Duration(seconds: 1), () {
           final QuizState s3 = state;
@@ -116,6 +118,7 @@ class QuizCubit extends Cubit<QuizState> {
             secondsLeft: 60,
             selected: null,
             feedback: null,
+            isFeedbackVisible: false,
           ));
           _startTimer();
         });
