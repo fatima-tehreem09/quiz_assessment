@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../data/quiz_api.dart';
-import '../../data/quiz_repository.dart';
+import '../../data/quiz/quiz_api.dart';
+import '../../data/quiz/quiz_repository.dart';
 import '../network/dio_client.dart';
 import '../session/user_session.dart';
 import '../theme/theme_cubit.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:Quiz/src/data/quiz_models.dart';
+import 'package:Quiz/src/data/quiz/quiz_models.dart';
 
 void main() {
   test('QuestionModel parses OpenTDB json and decodes html', () {

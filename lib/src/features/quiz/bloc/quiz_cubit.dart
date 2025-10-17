@@ -4,8 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../core/di/locator.dart';
-import '../../../data/quiz_models.dart';
-import '../../../data/quiz_repository.dart';
+import '../../../data/quiz/quiz_models.dart';
+import '../../../data/quiz/quiz_repository.dart';
 
 part 'quiz_state.dart';
 
